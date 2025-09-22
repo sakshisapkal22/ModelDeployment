@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rainwater Predictor</title>
+</head>
+<body>
+  <h2>Rainwater Harvesting Calculator</h2>
+  <input id="roof_area" placeholder="Roof Area (m²)">
+  <input id="rainfall" placeholder="Rainfall (mm)">
+  <input id="runoff" placeholder="Runoff Coefficient">
+  <button onclick="getPrediction()">Predict</button>
+  <p id="result"></p>
+
+  <script>
+    async function getPrediction() {
+      let data = {
+        roof_area: parseFloat(document.getElementById("roof_area").value),
+        rainfall: parseFloat(document.getElementById("rainfall").value),
+        runoff: parseFloat(document.getElementById("runoff").value)
+      };
+
+      let response = await fetch("http://127.0.0.1:5000/predict", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+      });
+
+      let result = await response.json();
+      document.getElementById("result").innerText =
+        "Predicted Water Collected: " + result.predicted_water_liters + " liters";
+    }
+  </script>
+</body>
+</html>
