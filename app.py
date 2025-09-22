@@ -9,7 +9,7 @@ model = joblib.load("rain_model.pkl")
 app = Flask(__name__)
 CORS(app)  # Enable CORS
 
-@app.route('/predict', methods=['POST'])
+@app.route('/', methods=['POST'])
 def predict():
     data = request.get_json()
     roof_area = data['roof_area']
