@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
   <title>Rainwater Predictor</title>
@@ -28,6 +28,51 @@
       let result = await response.json();
       document.getElementById("result").innerText =
         "Predicted Water Collected: " + result.predicted_water_liters + " liters";
+    }
+  </script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rainwater Predictor</title>
+</head>
+<body>
+  <h2>Rainwater Harvesting Calculator</h2>
+  <input id="roof_area" placeholder="Roof Area (m²)">
+  <input id="rainfall" placeholder="Rainfall (mm)">
+  <input id="runoff" placeholder="Runoff Coefficient">
+  <button onclick="getPrediction()">Predict</button>
+  <p id="result"></p>
+
+  <script>
+    async function getPrediction() {
+      let data = {
+        roof_area: parseFloat(document.getElementById("roof_area").value),
+        rainfall: parseFloat(document.getElementById("rainfall").value),
+        runoff: parseFloat(document.getElementById("runoff").value)
+      };
+
+      try {
+        let response = await fetch("/predict", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(data)
+        });
+
+        let result = await response.json();
+        if (result.predicted_water_liters !== undefined) {
+          document.getElementById("result").innerText =
+            "Predicted Water Collected: " + result.predicted_water_liters + " liters";
+        } else {
+          document.getElementById("result").innerText =
+            "Error: " + JSON.stringify(result);
+        }
+      } catch (err) {
+        document.getElementById("result").innerText = "Error: " + err;
+      }
     }
   </script>
 </body>
