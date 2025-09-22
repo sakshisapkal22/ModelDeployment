@@ -2,4 +2,5 @@ flask
 flask-cors
 scikit-learn
 joblib
-numpy   # if your model uses it
+numpy  
+gunicorn
